@@ -3,7 +3,7 @@ import sbt.Keys._
 import com.typesafe.sbt.SbtScalariform._
 import scalariform.formatter.preferences._
 
-scalaOrganization in ThisBuild := "org.typelevel"
+scalaOrganization in ThisBuild := "org.scala-lang"
 scalaVersion      in ThisBuild := "$scalaVersion$"
 
 val $name;format="camel"$ScalariformSettings = defaultScalariformSettings ++ Seq(
