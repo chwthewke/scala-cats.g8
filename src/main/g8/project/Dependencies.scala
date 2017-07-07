@@ -12,16 +12,17 @@ object Dependencies {
 
   val cats = depsGroup("org.typelevel", catsVersion)("cats-core")("cats")
 
-  val mouse = ("com.github.benhutchison" %% "mouse" % "0.9").withSources().exclude("org.typelevel", "cats")
+  val mouse = ("com.github.benhutchison" %% "mouse" % "0.9").withSources()
 
-  val catsAll = cats ++ Seq(mouse)
+  val catsAll = (cats :+ mouse).map(_.exclude("org.scalacheck", "scalacheck_2.12"))
 
   val scalaArm = "com.jsuereth" %% "scala-arm" % "2.0" withSources ()
 
   val scalatest = "org.scalatest" %% "scalatest" % "3.0.3" withSources ()
 
   val scalacheck =
-    Seq("org.scalacheck" %% "scalacheck" % "1.13.5", "io.github.amrhassan" %% "scalacheck-cats" % "0.3.3")
+    Seq("org.scalacheck" %% "scalacheck" % "1.13.5",
+      ("io.github.amrhassan" %% "scalacheck-cats" % "0.3.3").exclude("org.scalacheck", "scalacheck_2.12"))
       .map(_.withSources())
 
   val monocleVersion = "1.4.0"
@@ -33,7 +34,6 @@ object Dependencies {
 
   val circe =
     depsGroup("io.circe", circeVersion)("circe-core", "circe-generic", "circe-optics", "circe-parser")()
-      .map(_.exclude("com.github.julien-truffaut", "monocle-core_2.12"))
 
   val common = catsAll ++ scalacheck.map(_ % "test") ++ Seq(kindProjector, scalaArm, scalatest % "test")
 }

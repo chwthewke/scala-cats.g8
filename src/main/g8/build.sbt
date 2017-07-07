@@ -4,6 +4,7 @@ import sbt.Keys._
 // format: off
 scalaOrganization in ThisBuild := "org.scala-lang"
 scalaVersion      in ThisBuild := "$scalaVersion$"
+conflictManager   in ThisBuild := ConflictManager.strict
 // format: on
 
 val sharedSettings = Seq(organization := "$organization$")
