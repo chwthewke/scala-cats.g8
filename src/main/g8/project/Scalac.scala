@@ -23,9 +23,7 @@ object Scalac {
   // format: off
   val settings = Seq(
     scalacOptions                       ++= options,
-    scalacOptions in Test               ~=  (_.filterNot(_ == "-Ywarn-valueDiscard")),
-    // Note: uncomment this when importing to IntelliJ IDEA
-    // scalacOptions                       ~=  (_.filterNot(_ == "-Ywarn-valueDiscard")),
+    scalacOptions in Test               ~=  (_.filterNot(_ == "-Ywarn-value-discard")),
     scalacOptions in (Compile, console) ~=  (_.filterNot(_ == "-Xlint").filterNot(_ == "-Ywarn-unused-import")),
     scalacOptions in (Test,    console) :=  (scalacOptions in (Compile, console)).value
   )

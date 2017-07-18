@@ -13,6 +13,8 @@ val $name;format="camel"$Settings =
   Defaults.coreDefaultSettings ++
     sharedSettings ++
     Scalac.settings :+
+    // Note: uncomment this when importing to IntelliJ IDEA
+    // (scalacOptions ~=  (_.filterNot(_ == "-Ywarn-value-discard"))) :+
     (libraryDependencies ++= Dependencies.common) :+
     (testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"))
 
