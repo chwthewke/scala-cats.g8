@@ -2,38 +2,43 @@ import sbt._
 import sbt.Keys._
 
 object Dependencies {
-  def depsGroup(organization: String, version: String)(artifacts: String*)(testArtifacts: String*) =
-    artifacts.map(organization       %% _ % version withSources ()) ++
-      testArtifacts.map(organization %% _ % version % "test" withSources ())
+  type D = Seq[ModuleID]
 
-  val kindProjector = compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
+  def group( organization: String, version: String )( artifacts: String* )( testArtifacts: String* ): D =
+    artifacts.map( organization       %% _ % version withSources () ) ++
+      testArtifacts.map( organization %% _ % version % "test" withSources () )
+
+  def group( artifacts: ModuleID* )( testArtifacts: ModuleID* ): D =
+    (artifacts map (_ withSources ())) ++ (testArtifacts map (_ % "test" withSources ()))
+
+  val kindProjector: D = Seq( compilerPlugin( "org.spire-math" %% "kind-projector" % "0.9.4" ) )
 
   val catsVersion = "0.9.0"
 
-  val cats = depsGroup("org.typelevel", catsVersion)("cats-core")("cats")
-
-  val mouse = ("com.github.benhutchison" %% "mouse" % "0.9").withSources()
-
-  val catsAll = (cats :+ mouse).map(_.exclude("org.scalacheck", "scalacheck_2.12"))
-
-  val scalaArm = "com.jsuereth" %% "scala-arm" % "2.0" withSources ()
-
-  val scalatest = "org.scalatest" %% "scalatest" % "3.0.3" withSources ()
-
-  val scalacheck =
-    Seq("org.scalacheck" %% "scalacheck" % "1.13.5",
-      ("io.github.amrhassan" %% "scalacheck-cats" % "0.3.3").exclude("org.scalacheck", "scalacheck_2.12"))
-      .map(_.withSources())
+  val cats: D = group( "org.typelevel", catsVersion )( "cats-core" )( "cats" ) ++
+    group( "com.github.benhutchison" %% "mouse" % "0.9" )() map (_.exclude( "org.typelevel", "cats_2.12" ) )
 
   val monocleVersion = "1.4.0"
 
-  val monocle =
-    depsGroup("com.github.julien-truffaut", monocleVersion)("monocle-core", "monocle-macro")()
+  val monocle: D =
+    group( "com.github.julien-truffaut", monocleVersion )( "monocle-core", "monocle-macro" )()
 
-  val circeVersion = "0.8.0"
+  val shapeless: D = group( "com.chuusai" %% "shapeless" % "2.3.2" )()
 
-  val circe =
-    depsGroup("io.circe", circeVersion)("circe-core", "circe-generic", "circe-optics", "circe-parser")()
+  val scalatest: D = group()( "org.scalatest" %% "scalatest" % "3.0.3" )
 
-  val common = catsAll ++ scalacheck.map(_ % "test") ++ Seq(kindProjector, scalaArm, scalatest % "test")
+  val scalacheck: D =
+    group()( "org.scalacheck" %% "scalacheck" % "1.13.4", "io.github.amrhassan" %% "scalacheck-cats" % "0.3.3" )
+
+  val enumeratumVersion: String = "1.5.12"
+  val enumeratum: D             = group( "com.beachape" %% "enumeratum" % enumeratumVersion )()
+
+  val common: D = kindProjector ++ cats ++ shapeless ++ enumeratum ++ scalacheck ++ scalatest
+
+  val overrides = dependencyOverrides ++= Set(
+    "org.scala-lang" % "scala-library" % scalaVersion.value,
+    "org.scala-lang" % "scala-reflect" % scalaVersion.value
+  )
+
+  val settings = Seq( libraryDependencies ++= common, overrides )
 }
