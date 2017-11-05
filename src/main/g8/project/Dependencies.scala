@@ -2,6 +2,7 @@ import sbt._
 import sbt.Keys._
 
 object Dependencies {
+  type M = ModuleID
   type D = Seq[ModuleID]
 
   def group( organization: String, version: String )( artifacts: String* )( testArtifacts: String* ): D =
@@ -25,19 +26,22 @@ object Dependencies {
 
   val shapeless: D = group( "com.chuusai" %% "shapeless" % "2.3.2" )()
 
-  val scalatest: D = group()( "org.scalatest" %% "scalatest" % "3.0.3" )
+  val scalatest: D = group()( "org.scalatest" %% "scalatest" % "3.0.4" )
+
+  val scalacheckM: M = "org.scalacheck" %% "scalacheck" % "1.13.5"
 
   val scalacheck: D =
-    group()( "org.scalacheck" %% "scalacheck" % "1.13.4", "io.github.amrhassan" %% "scalacheck-cats" % "0.3.3" )
+    group()( scalacheckM, "io.github.amrhassan" %% "scalacheck-cats" % "0.3.3" )
 
   val enumeratumVersion: String = "1.5.12"
   val enumeratum: D             = group( "com.beachape" %% "enumeratum" % enumeratumVersion )()
 
   val common: D = kindProjector ++ cats ++ shapeless ++ enumeratum ++ scalacheck ++ scalatest
 
-  val overrides = dependencyOverrides ++= Set(
+  val overrides = dependencyOverrides ++= Seq(
     "org.scala-lang" % "scala-library" % scalaVersion.value,
-    "org.scala-lang" % "scala-reflect" % scalaVersion.value
+    "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+    scalacheckM
   )
 
   val settings = Seq( libraryDependencies ++= common, overrides )
