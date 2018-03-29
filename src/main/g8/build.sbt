@@ -7,12 +7,13 @@ scalaVersion      in ThisBuild := "$scalaVersion$"
 conflictManager   in ThisBuild := ConflictManager.strict
 // format: on
 
+enablePlugins( FormatPlugin, ScalacPlugin )
+
 val sharedSettings = Seq( organization := "$organization$" )
 
 val $name;format="camel"$Settings =
   Defaults.coreDefaultSettings ++
     sharedSettings ++
-    Scalac.settings ++
     Dependencies.settings :+
     (testOptions in Test += Tests.Argument( TestFrameworks.ScalaTest, "-oDF" ))
 

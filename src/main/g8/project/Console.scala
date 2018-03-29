@@ -11,7 +11,7 @@ object Console {
       )
 
     def compileS = compileList.map( "import " + _ ).mkString( "\n" )
-    def testS    = ( compileList ++ testList ).map( "import " + _ ).mkString( "\n" )
+    def testS    = (compileList ++ testList).map( "import " + _ ).mkString( "\n" )
 
     def settings = Seq(
       initialCommands := compileS,
@@ -20,7 +20,7 @@ object Console {
   }
 
   val coreImports = Imports(
-    "$package$._" :: "cats._" :: "cats.data._" :: "cats.implicits._" :: Nil,
+    "$package$._" :: "cats._" :: "cats.data._" :: "cats.implicits._" :: "monocle._" :: Nil,
     "org.scalacheck.Gen" :: "org.scalacheck.Gen._" :: Nil
   )
 }

@@ -1,7 +1,7 @@
 import sbt._
 import sbt.Keys._
 
-object Scalac {
+object ScalacPlugin extends AutoPlugin {
   val options: Seq[String] = Seq(
     "-deprecation",
     "-encoding",
@@ -12,6 +12,7 @@ object Scalac {
     "-Xfatal-warnings",
     "-Xfuture",
     "-Xlint",
+    "-Ywarn-macros:after",
     "-Yno-adapted-args",
     "-Ypartial-unification",
     "-Ywarn-dead-code",
@@ -32,7 +33,7 @@ object Scalac {
   def forConsole( opts: Seq[String] ): Seq[String] =
     opts.filterNot( Set( "-Xlint", "-Ywarn-unused-import" ) )
 
-  val settings: Seq[Def.Setting[_]] =
+  override def projectSettings: Seq[Def.Setting[_]] =
     // format: off
     Seq(
       scalacOptions                         ++= workaroundForIntellij( options ),
