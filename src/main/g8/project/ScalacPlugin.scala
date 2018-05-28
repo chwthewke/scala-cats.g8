@@ -33,7 +33,7 @@ object ScalacPlugin extends AutoPlugin {
   def forConsole( opts: Seq[String] ): Seq[String] =
     opts.filterNot( Set( "-Xfatal-warnings", "-Xlint", "-Ywarn-unused-import" ) )
 
-  override def buildSettings: Seq[Def.Setting[_]] =
+  override def projectSettings: Seq[Def.Setting[_]] =
     // format: off
     Seq(
       scalacOptions                         ++= workaroundForIntellij( options ),
