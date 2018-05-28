@@ -4,13 +4,15 @@ import sbtbuildinfo._
 import sbtbuildinfo.BuildInfoKeys._
 import sbtrelease.Version
 
-object SbtBuildInfo {
+object SbtBuildInfo extends AutoPlugin {
+  override def requires: Plugins = super.requires && BuildInfoPlugin
+
   val shortVersion = SettingKey[String]( "short-version" )
 
-  def buildSettings( objectName: String, targetPackage: String = "$package$" ) =
-    BuildInfoPlugin.projectSettings ++ Seq(
-      buildInfoPackage := targetPackage,
-      buildInfoObject := objectName,
+  override def projectSettings: Seq[Def.Setting[_]] =
+    Seq(
+      buildInfoPackage := "buildinfo",
+      buildInfoObject := "$name;format="Camel"$",
       shortVersion := shortenVersion( version.value ),
       buildInfoKeys := BuildInfoKey.ofN( name, version, shortVersion, scalaVersion )
     )

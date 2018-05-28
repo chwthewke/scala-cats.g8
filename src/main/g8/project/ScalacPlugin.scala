@@ -31,15 +31,16 @@ object ScalacPlugin extends AutoPlugin {
     opts.filterNot( _ == "-Ywarn-value-discard" )
 
   def forConsole( opts: Seq[String] ): Seq[String] =
-    opts.filterNot( Set( "-Xlint", "-Ywarn-unused-import" ) )
+    opts.filterNot( Set( "-Xfatal-warnings", "-Xlint", "-Ywarn-unused-import" ) )
 
-  override def projectSettings: Seq[Def.Setting[_]] =
+  override def buildSettings: Seq[Def.Setting[_]] =
     // format: off
     Seq(
       scalacOptions                         ++= workaroundForIntellij( options ),
       scalacOptions   in Test               ~=  forTest,
       scalacOptions   in (Compile, console) ~=  forConsole,
-      scalacOptions   in (Test,    console) :=  forTest( (scalacOptions in (Compile, console)).value )
+      scalacOptions   in (Test,    console) :=  forTest( (scalacOptions in (Compile, console)).value ),
+      testOptions     in Test               += Tests.Argument(TestFrameworks.ScalaTest, "-oDF")
     )
   // format: on
 }

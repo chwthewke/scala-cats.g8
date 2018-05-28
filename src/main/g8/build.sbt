@@ -2,6 +2,7 @@ import sbt._
 import sbt.Keys._
 
 // format: off
+organization      in ThisBuild := "$organization$"
 scalaOrganization in ThisBuild := "org.scala-lang"
 scalaVersion      in ThisBuild := "$scalaVersion$"
 conflictManager   in ThisBuild := ConflictManager.strict
@@ -9,21 +10,10 @@ conflictManager   in ThisBuild := ConflictManager.strict
 
 enablePlugins( FormatPlugin, ScalacPlugin )
 
-val sharedSettings = Seq( organization := "$organization$" )
-
-val $name;format="camel"$Settings =
-  Defaults.coreDefaultSettings ++
-    sharedSettings ++
-    Dependencies.settings :+
-    (testOptions in Test += Tests.Argument( TestFrameworks.ScalaTest, "-oDF" ))
-
 val `$module;format="norm"$` = project
-  .settings( $name;format="camel"$Settings )
-  .settings( SbtBuildInfo.buildSettings( "$module;format="Camel"$BuildInfo" ) )
-  .settings( Console.coreImports.settings )
+  .settings( libraryDependencies ++= scalatest )
+  .enablePlugins( SbtBuildInfo )
 
 val `$name;format="norm"$` = project
   .in( file( "." ) )
-  .settings( sharedSettings )
-  .settings( Dependencies.overrides )
   .aggregate( `$module;format="norm"$` )
