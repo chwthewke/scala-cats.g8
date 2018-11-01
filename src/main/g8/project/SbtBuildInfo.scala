@@ -2,7 +2,6 @@ import sbt._
 import sbt.Keys._
 import sbtbuildinfo._
 import sbtbuildinfo.BuildInfoKeys._
-import sbtrelease.Version
 
 object SbtBuildInfo extends AutoPlugin {
   override def requires: Plugins = super.requires && BuildInfoPlugin

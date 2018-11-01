@@ -1,137 +1,141 @@
 import sbt._
 import sbt.Keys._
+import sbt.librarymanagement.DependencyBuilders
 
 object DependenciesPlugin extends AutoPlugin {
   type Deps = Seq[ModuleID]
 
-  def group( organization: String, version: String )( artifacts: String* )( testArtifacts: String* ): Seq[ModuleID] =
-    artifacts.map( organization %% _ % version ) ++ testArtifacts.map( organization %% _ % version % "test" )
-
   object autoImport {
     type Deps = DependenciesPlugin.Deps
 
-    def depsGroup( organization: String, version: String )( artifacts: String* )(
-        testArtifacts: String* ): Seq[ModuleID] =
-      DependenciesPlugin.group( organization, version )( artifacts: _* )( testArtifacts: _* )
+    implicit def ToStringOps( orgName: String ): StringOps = new StringOps( orgName )
+
+    implicit def ToDbOanOps( dbOans: Seq[DbOan] ): DbOanOps = new DbOanOps( dbOans )
 
     implicit def ToGroupOps( deps: Deps ): GroupOps = new GroupOps( deps )
 
-    val kindProjector: Deps = Seq( compilerPlugin( "org.spire-math" %% "kind-projector" % "0.9.6" ) )
-    val splain: Deps        = Seq( compilerPlugin( "io.tryp"        % "splain"          % "0.2.7" cross CrossVersion.patch ) )
+    val kindProjector: Deps = Seq( compilerPlugin( "org.spire-math" %% "kind-projector" % "0.9.8" ) )
+    val splain: Deps        = Seq( compilerPlugin( "io.tryp"        % "splain"          % "0.3.4" cross CrossVersion.patch ) )
 
-    val catsVersion     = "1.1.0"
-    val cats: Deps      = group( "org.typelevel", catsVersion )( "cats-core" )()
-    val catsExtra: Deps = group( "org.typelevel", catsVersion )( "cats-free", "cats-macros" )()
+    val catsVersion    = "1.4.0"
+    val cats: Deps     = "org.typelevel" %% Seq( "cats-core", "cats-kernel", "cats-macros" ) % catsVersion
+    val catsFree: Deps = Seq( "org.typelevel" %% "cats-free" % catsVersion )
+    val catsMtl: Deps  = Seq( "org.typelevel" %% "cats-mtl-core" % "0.4.0" )
+    val mouse: Deps    = Seq( "org.typelevel" %% "mouse" % "0.19" )
+    val kittens: Deps  = Seq( "org.typelevel" %% "kittens" % "1.2.0" )
 
-    val mouse: Deps = group( "org.typelevel", "0.17" )( "mouse" )()
+    val catsEffect: Deps = Seq( "org.typelevel" %% "cats-effect" % "1.0.0" )
 
-    val scalaArm: Deps = group( "com.jsuereth", "2.0" )( "scala-arm" )()
-    val monocleVersion = "1.5.0-cats"
-    val monocle: Deps =
-      group( "com.github.julien-truffaut", monocleVersion )( "monocle-core", "monocle-macro" )()
+    val fs2: Deps = "co.fs2" %% Seq( "fs2-core", "fs2-io" ) % "1.0.0"
 
-    val circeVersion = "0.9.3"
-    val circe: Deps =
-      group( "io.circe", circeVersion )( "circe-core", "circe-generic", "circe-parser" )()
-    val circeOptics = Seq( "io.circe" %% "circe-optics" % circeVersion )
+    val http4sVersion           = "0.20.0-M1"
+    val http4s: Deps            = Seq( "org.http4s" %% "http4s-dsl" % http4sVersion )
+    val http4sBlazeServer: Deps = Seq( "org.http4s" %% "http4s-blaze-server" % http4sVersion )
+    val http4sBlazeClient: Deps = Seq( "org.http4s" %% "http4s-blaze-client" % http4sVersion )
 
-    val akkaVersion           = "2.5.12"
-    val akkaHttpVersion       = "10.1.1"
-    val akkaHttpTestkit: Deps = Seq( "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion )
+    val monocleVersion     = "1.5.1-cats"
+    val monocle: Deps      = "com.github.julien-truffaut" %% Seq( "monocle-core", "monocle-macro" ) % monocleVersion
+    val monocleState: Deps = Seq( "com.github.julien-truffaut" %% "monocle-state" % monocleVersion )
 
-    val akkaHttp: Deps =
-      group( "com.typesafe.akka", akkaVersion )( "akka-actor", "akka-stream" )() ++
-        group( "com.typesafe.akka", akkaHttpVersion )( "akka-http" )( "akka-http-testkit" ) ++
-        Seq( "de.heikoseeberger" %% "akka-http-circe" % "1.20.1" )
-
-    val sslConfigCore   = Seq( "com.typesafe"        %% "ssl-config-core" % "0.2.2" )
-    val reactiveStreams = Seq( "org.reactivestreams" % "reactive-streams" % "1.0.2" )
+    val circeVersion = "0.10.1"
+    val circe: Deps  = "io.circe" %% Seq( "circe-core", "circe-generic", "circe-parser" ) % circeVersion
+    val circeOptics  = Seq( "io.circe" %% "circe-optics" % "0.10.0" )
 
     val enumeratum: Deps =
-      Seq( "com.beachape" %% "enumeratum" % "1.5.13", "com.beachape" %% "enumeratum-circe" % "1.5.17" )
+      Seq( "com.beachape" %% "enumeratum" % "1.5.13", "com.beachape" %% "enumeratum-circe" % "1.5.18" )
 
     val shapeless: Deps = Seq( "com.chuusai" %% "shapeless" % "2.3.3" )
 
-    val java8compat: Deps      = Seq( "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.0" )
-    val scalaLangModules: Deps = group( "org.scala-lang.modules", "1.0.6" )( "scala-parser-combinators", "scala-xml" )()
+    val java8compat: Deps = Seq( "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.0" )
+    val scalaLangModules: Deps =
+      "org.scala-lang.modules" %% Seq( "scala-parser-combinators", "scala-xml" ) % "1.1.1"
 
     val logging: Deps = Seq( "org.slf4j" % "slf4j-api" % "1.7.25",
                             "ch.qos.logback"             % "logback-classic" % "1.2.3",
                             "com.typesafe.scala-logging" %% "scala-logging"  % "3.9.0" )
 
-    val pureconfig: Deps = Seq( "com.typesafe" % "config" % "1.3.2", "com.github.pureconfig" %% "pureconfig" % "0.9.1" )
+    val pureconfigVersion = "0.10.0"
+    val pureconfig: Deps = "com.github.pureconfig" %% Seq( "pureconfig-core",
+                                                          "pureconfig-cats",
+                                                          "pureconfig-enumeratum",
+                                                          "pureconfig-cats-effect" ) % pureconfigVersion
 
-    val slickVersion       = "3.2.3"
-    val slick: Deps        = group( "com.typesafe.slick", slickVersion )( "slick", "slick-hikaricp" )()
-    val slickCodegen: Deps = Seq( "com.typesafe.slick" %% "slick-codegen" % slickVersion )
+    val pureconfigFs2: Deps    = Seq( "com.github.pureconfig" %% "pureconfig-fs2"    % pureconfigVersion )
+    val pureconfigHttp4s: Deps = Seq( "com.github.pureconfig" %% "pureconfig-http4s" % pureconfigVersion )
 
-    val postgresql: Deps     = Seq( "org.postgresql" % "postgresql" % "9.4.1212" )
-    val h2databaseMain: Deps = Seq( "com.h2database" % "h2" % "1.4.197" )
-    val h2database: Deps     = h2databaseMain % "test"
-    val flywayCore: Deps     = Seq( "org.flywaydb" % "flyway-core" % "5.0.7" )
+    private[DependenciesPlugin] val typesafeConfig: Deps = Seq( "com.typesafe" % "config" % "1.3.3" )
 
-    val univocity: Deps = Seq( "com.univocity" % "univocity-parsers" % "2.6.1" )
+    val decline = Seq( "com.monovore" %% "decline" % "0.5.1" )
 
-    val jose4j: Deps = Seq( "org.bitbucket.b_c" % "jose4j" % "0.6.3" )
+    val doobieVersion = "0.6.0"
+    val doobie: Deps =
+      "org.tpolecat" %% Seq( "doobie-core", "doobie-free" ) % doobieVersion
+    val doobiePostgres
+      : Deps            = "org.tpolecat" %% Seq( "doobie-postgres", "doobie-postgres-circe", "doobie-hikari" ) % doobieVersion
+    val doobieH2        = Seq( "org.tpolecat" %% "doobie-h2" % doobieVersion )
+    val doobieScalatest = Seq( "org.tpolecat" %% "doobie-scalatest" % doobieVersion )
 
-    val scalatestMain: Deps = Seq( "org.scalatest" %% "scalatest" % "3.0.5" )
-    val scalatest: Deps     = scalatestMain % "test"
+    val postgresql: Deps = Seq( "org.postgresql" % "postgresql"  % "42.2.5" )
+    val h2database: Deps = Seq( "com.h2database" % "h2"          % "1.4.197" )
+    val flywayCore: Deps = Seq( "org.flywaydb"   % "flyway-core" % "5.2.1" )
 
-    val scalacheckMain: Deps =
+    val scalatest: Deps = Seq( "org.scalatest" %% "scalatest" % "3.0.5" )
+
+    val scalacheck: Deps =
       Seq(
-        "org.scalacheck"      %% "scalacheck"      % "1.13.4",
+        "org.scalacheck"      %% "scalacheck"      % "1.13.5",
         "io.github.amrhassan" %% "scalacheck-cats" % "0.4.0"
       )
-    val scalacheck: Deps = scalacheckMain % "test"
 
     val autoDiff: Deps =
-      group( "fr.thomasdufour", "0.2.0" )()( "auto-diff-core",
-                                            "auto-diff-generic",
-                                            "auto-diff-scalatest",
-                                            "auto-diff-enumeratum" )
-
-    val gatlingVersion = "2.3.1"
-    val gatling =
-      Seq(
-        "io.gatling.highcharts" % "gatling-charts-highcharts" % gatlingVersion,
-        "io.gatling"            % "gatling-test-framework"    % gatlingVersion
-      ) % "test,it"
+      "fr.thomasdufour" %% Seq( "auto-diff-core", "auto-diff-generic", "auto-diff-scalatest", "auto-diff-enumeratum" ) % "0.2.0"
 
   }
 
   import autoImport._
 
-  override def buildSettings: Seq[Def.Setting[_]] =
-    dependencyOverrides in ThisBuild ++= Seq(
-      "org.scala-lang" % "scala-library" % scalaVersion.value,
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value
-    ) ++
-      cats ++
-      catsExtra ++
+  def allModules =
+    cats ++
+      catsFree ++
+      catsMtl ++
       mouse ++
-      scalaArm ++
+      catsEffect ++
+      fs2 ++
+      http4s ++
+      http4sBlazeServer ++
+      http4sBlazeClient ++
+      kittens ++
       monocle ++
+      monocleState ++
       circe ++
-      akkaHttp ++
-      sslConfigCore ++
-      reactiveStreams ++
+      circeOptics ++
       enumeratum ++
       shapeless ++
       java8compat ++
       scalaLangModules ++
       logging ++
       pureconfig ++
-      slick ++
-      slickCodegen ++
+      pureconfigFs2 ++
+      pureconfigHttp4s ++
+      typesafeConfig ++
+      decline ++
+      doobie ++
+      doobiePostgres ++
+      doobieH2 ++
       postgresql ++
       h2database ++
       flywayCore ++
-      univocity ++
-      jose4j ++
       scalatest ++
       scalacheck ++
-      autoDiff ++
-      gatling
+      autoDiff
+
+  override def buildSettings: Seq[Def.Setting[_]] =
+    dependencyOverrides in ThisBuild ++= Seq(
+      "org.scala-lang" % "scala-library" % scalaVersion.value,
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value
+    ) ++ allModules
+
+  type DbOan = DependencyBuilders.OrganizationArtifactName
 
   class GroupOps( val self: Seq[ModuleID] ) extends AnyVal {
     def exclude( org: String, name: String ): Seq[ModuleID] =
@@ -143,4 +147,13 @@ object DependenciesPlugin extends AutoPlugin {
     def classifier( c: String ): Seq[ModuleID] =
       self.map( _ classifier c )
   }
+
+  class StringOps( val self: String ) extends AnyVal {
+    def %%( artifactIds: Seq[String] ): Seq[DbOan] = artifactIds.map( self %% _ )
+  }
+
+  class DbOanOps( val self: Seq[DbOan] ) extends AnyVal {
+    def %( revision: String ): Deps = self.map( _ % revision )
+  }
+
 }

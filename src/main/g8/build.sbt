@@ -8,10 +8,10 @@ scalaVersion      in ThisBuild := "$scalaVersion$"
 conflictManager   in ThisBuild := ConflictManager.strict
 // format: on
 
-enablePlugins( FormatPlugin )
+enablePlugins( FormatPlugin, DependenciesPlugin )
 
 val `$module;format="norm"$` = project
-  .settings( libraryDependencies ++= scalatest )
+  .settings( libraryDependencies ++= cats ++ scalatest % "test" )
   .enablePlugins( SbtBuildInfo, ScalacPlugin )
 
 val `$name;format="norm"$` = project
