@@ -146,8 +146,9 @@ object DependenciesPlugin extends AutoPlugin {
 
   override def buildSettings: Seq[Def.Setting[_]] =
     dependencyOverrides in ThisBuild ++= Seq(
-      "org.scala-lang" % "scala-library" % scalaVersion.value,
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value
+      "org.scala-lang" % "scala-library"  % scalaVersion.value,
+      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+      "org.scala-lang" % "scala-reflect"  % scalaVersion.value
     ) ++ allModules
 
   type DbOan = DependencyBuilders.OrganizationArtifactName
