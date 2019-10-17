@@ -15,8 +15,11 @@ object DependenciesPlugin extends AutoPlugin {
     implicit def ToGroupOps( deps: Deps ): GroupOps = new GroupOps( deps )
 
     val kindProjector: Deps =
-      Seq( compilerPlugin( "org.spire-math" %% "kind-projector" % "0.11.0" cross CrossVersion.patch ) )
+      Seq( compilerPlugin( "org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full ) )
+    
     val splain: Deps = Seq( compilerPlugin( "io.tryp" % "splain" % "0.4.1" cross CrossVersion.patch ) )
+
+    val betterMonadicFor: Deps = Seq( compilerPlugin( "com.olegpy" %% "better-monadic-for" % "0.3.1" ) )
 
     val catsVersion    = "2.0.0"
     val cats: Deps     = "org.typelevel" %% Seq( "cats-core", "cats-kernel", "cats-macros" ) % catsVersion
