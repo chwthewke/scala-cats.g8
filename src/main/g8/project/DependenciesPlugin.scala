@@ -42,10 +42,10 @@ object DependenciesPlugin extends AutoPlugin {
     val monocleState: Deps   = Seq( "com.github.julien-truffaut" %% "monocle-state" % monocleVersion )
     val monocleGeneric: Deps = Seq( "com.github.julien-truffaut" %% "monocle-generic" % monocleVersion )
 
-    val circeVersion = "0.12.2"
-    val circe: Deps  = "io.circe" %% Seq( "circe-core", "circe-generic", "circe-parser" ) % circeVersion
-    val circeOptics  = Seq( "io.circe" %% "circe-optics" % "0.12.0" )
-    val circeFs2     = Seq( "io.circe" %% "circe-fs2" % "0.12.0" )
+    val circeVersion      = "0.12.2"
+    val circe: Deps       = "io.circe" %% Seq( "circe-core", "circe-generic", "circe-parser" ) % circeVersion
+    val circeOptics: Deps = Seq( "io.circe" %% "circe-optics" % "0.12.0" )
+    val circeFs2: Deps    = Seq( "io.circe" %% "circe-fs2" % "0.12.0" )
 
     val enumeratum: Deps =
       Seq( "com.beachape" %% "enumeratum" % "1.5.13", "com.beachape" %% "enumeratum-cats" % "1.5.16" )
@@ -72,7 +72,7 @@ object DependenciesPlugin extends AutoPlugin {
 
     private[DependenciesPlugin] val typesafeConfig: Deps = Seq( "com.typesafe" % "config" % "1.4.0" )
 
-    val decline = "com.monovore" %% Seq( "decline", "decline-effect" ) % "1.0.0"
+    val decline: Deps = "com.monovore" %% Seq( "decline", "decline-effect" ) % "1.0.0"
 
     val doobieVersion             = "0.8.4"
     val doobie: Deps              = "org.tpolecat" %% Seq( "doobie-core", "doobie-free" ) % doobieVersion
@@ -101,7 +101,7 @@ object DependenciesPlugin extends AutoPlugin {
 
   import autoImport._
 
-  def allModules =
+  def allModules: Deps =
     cats ++
       catsFree ++
       catsMtl ++
