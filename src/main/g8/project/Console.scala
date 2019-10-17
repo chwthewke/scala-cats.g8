@@ -20,7 +20,7 @@ object Console {
   }
 
   val coreImports = Imports(
-    "$package$._" :: "cats._" :: "cats.data._" :: "cats.implicits._" :: "monocle._" :: Nil,
+    "$package$._" :: "cats._" :: "cats.data._" :: "cats.implicits._" :: Nil,
     "org.scalacheck.Gen" :: "org.scalacheck.Gen._" :: Nil
   )
 }

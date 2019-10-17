@@ -10,22 +10,19 @@ object ScalacPlugin extends AutoPlugin {
     "-language:higherKinds",
     "-unchecked",
     "-Xfatal-warnings",
-    "-Xfuture",
     "-Xlint",
     "-Ywarn-macros:after",
-    "-Yno-adapted-args",
-    "-Ypartial-unification",
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
-    "-Ywarn-unused-import",
     "-Ywarn-value-discard"
   )
 
-  def workaroundForIntellij( opts: Seq[String] ): Seq[String] =
-    if (sys.props.contains( "idea.runid" ))
-      forTest( opts )
-    else
-      opts
+  // TODO keeping this around, but not sure it's still needed
+  // def workaroundForIntellij( opts: Seq[String] ): Seq[String] =
+  //   if (sys.props.contains( "idea.runid" ))
+  //     forTest( opts )
+  //   else
+  //     opts
 
   def forTest( opts: Seq[String] ): Seq[String] =
     opts.filterNot( _ == "-Ywarn-value-discard" )
@@ -36,11 +33,12 @@ object ScalacPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     // format: off
     Seq(
-      scalacOptions                         ++= workaroundForIntellij( options ),
+      // scalacOptions                         ++= workaroundForIntellij( options ),
+      scalacOptions                         ++= options,
       scalacOptions   in Test               ~=  forTest,
       scalacOptions   in (Compile, console) ~=  forConsole,
       scalacOptions   in (Test,    console) :=  forTest( (scalacOptions in (Compile, console)).value ),
-      testOptions     in Test               += Tests.Argument(TestFrameworks.ScalaTest, "-oDF")
+      testOptions     in Test               +=  Tests.Argument(TestFrameworks.ScalaTest, "-oDF")
     )
   // format: on
 }

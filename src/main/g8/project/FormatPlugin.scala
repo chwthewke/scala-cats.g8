@@ -11,14 +11,16 @@ object FormatPlugin extends AutoPlugin {
     TaskKey[Unit]( "scalafmtGenerateConfig" )
 
   override def projectSettings: Seq[Def.Setting[_]] = Seq(
-    scalafmtOnCompile := true
+    scalafmtOnCompile := !sys.props.contains( "idea.runid" )
   )
 
   override def buildSettings: Seq[Def.Setting[_]] = Seq(
     scalafmtGenerateConfig := {
       IO.write(
         file( ".scalafmt.conf" ),
-        """style = defaultWithAlign
+        """version = "2.0.0"
+          |
+          |style = defaultWithAlign
           |maxColumn = 120
           |lineEndings = preserve
           |
@@ -32,7 +34,7 @@ object FormatPlugin extends AutoPlugin {
     },
     scalafmtConfig := {
       val _ = scalafmtGenerateConfig.value
-      Some( file( ".scalafmt.conf" ) )
+      file( ".scalafmt.conf" )
     }
   )
 }
