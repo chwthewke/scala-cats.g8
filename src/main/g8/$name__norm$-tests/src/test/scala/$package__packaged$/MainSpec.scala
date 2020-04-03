@@ -1,8 +1,8 @@
 package $package$
 
-import org.scalatest.WordSpec
+import org.scalatest.wordspec.AnyWordSpec
 
-class MainSpec extends WordSpec {
+class MainSpec extends AnyWordSpec {
   "Main" should {
     "run" in {
       Main.main( Array() )
