@@ -1,4 +1,4 @@
-name := "$module;format="norm"$-build"
+name := "$name;format="norm"$-build"
 
 resolvers += Classpaths.sbtPluginReleases
 resolvers += Resolver.sonatypeRepo( "releases" )

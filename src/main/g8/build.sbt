@@ -2,28 +2,28 @@ import sbt._
 import sbt.Keys._
 
 // format: off
-organization      in ThisBuild := "$organization$"
-scalaOrganization in ThisBuild := "org.scala-lang"
-scalaVersion      in ThisBuild := "$scalaVersion$"
+ThisBuild / organization      := "$organization$"
+ThisBuild / scalaOrganization := "org.scala-lang"
+ThisBuild / scalaVersion      := "$scalaVersion$"
 // TODO when I can make sense of lm-coursier
-conflictManager   in ThisBuild                         := ConflictManager.strict
-conflictManager   in updateSbtClassifiers in ThisBuild := ConflictManager.default
+ThisBuild / conflictManager                        := ConflictManager.strict
+ThisBuild / updateSbtClassifiers / conflictManager := ConflictManager.default
 // format: on
 
 enablePlugins( FormatPlugin, DependenciesPlugin )
 
-val `$module;format="norm"$` = project
+val core = project
   .settings( libraryDependencies ++= cats ++ catsEffect )
   .enablePlugins( SbtBuildInfo, ScalacPlugin )
 
-val `$name;format="norm"$-tests` = project
+val tests = project
   .settings( libraryDependencies ++= (scalatest ++ scalacheck).map( _ % "test" ) )
-  .dependsOn( `$module;format="norm"$` )
+  .dependsOn( core )
   .enablePlugins( ScalacPlugin )
 
-val `$name;format="norm"$-all` = project
+val `$name;format="norm"$` = project
   .in( file( "." ) )
   .aggregate(
-    `$module;format="norm"$`,
-    `$name;format="norm"$-tests`
+    core,
+    tests
   )

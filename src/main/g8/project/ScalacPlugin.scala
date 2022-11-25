@@ -34,11 +34,11 @@ object ScalacPlugin extends AutoPlugin {
     // format: off
     Seq(
       // scalacOptions                         ++= workaroundForIntellij( options ),
-      scalacOptions                         ++= options,
-      scalacOptions   in Test               ~=  forTest,
-      scalacOptions   in (Compile, console) ~=  forConsole,
-      scalacOptions   in (Test,    console) :=  forTest( (scalacOptions in (Compile, console)).value ),
-      testOptions     in Test               +=  Tests.Argument(TestFrameworks.ScalaTest, "-oDF")
+      scalacOptions                     ++= options,
+      Test / scalacOptions              ~=  forTest,
+      Compile / console / scalacOptions ~=  forConsole,
+      Test / console / scalacOptions    :=  forTest( (Compile / console / scalacOptions).value ),
+      Test / testOptions                +=  Tests.Argument(TestFrameworks.ScalaTest, "-oDF")
     )
   // format: on
 }
