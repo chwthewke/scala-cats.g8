@@ -37,10 +37,10 @@ object DependenciesPlugin extends AutoPlugin {
     val http4sBlazeClient: Deps = Seq( "org.http4s" %% "http4s-ember-client" % http4sVersion )
 
     val monocleVersion       = "3.1.0"
-    val monocle: Deps        = "dev.optics" %% Seq("monocle-core", "monocle-macro") % monocleVersion
-    val monocleState: Deps   = Seq("dev.optics" %% "monocle-state" % monocleVersion)
-    val monocleGeneric: Deps = Seq("dev.optics" %% "monocle-generic" % monocleVersion)
-    val monocleUnsafe: Deps  = Seq("dev.optics" %% "monocle-unsafe" % monocleVersion)
+    val monocle: Deps        = "dev.optics" %% Seq( "monocle-core", "monocle-macro" ) % monocleVersion
+    val monocleState: Deps   = Seq( "dev.optics" %% "monocle-state" % monocleVersion )
+    val monocleGeneric: Deps = Seq( "dev.optics" %% "monocle-generic" % monocleVersion )
+    val monocleUnsafe: Deps  = Seq( "dev.optics" %% "monocle-unsafe" % monocleVersion )
 
     val circeVersion      = "0.14.3"
     val circe: Deps       = "io.circe" %% Seq( "circe-core", "circe-generic", "circe-parser" ) % circeVersion
