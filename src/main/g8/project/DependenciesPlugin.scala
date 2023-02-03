@@ -27,16 +27,16 @@ object DependenciesPlugin extends AutoPlugin {
     val kittens: Deps       = Seq( "org.typelevel" %% "kittens" % "3.0.0" )
     val alleycatsCore: Deps = Seq( "org.typelevel" %% "alleycats-core" % catsVersion )
 
-    val catsEffect: Deps = Seq( "org.typelevel" %% "cats-effect" % "3.4.1" )
+    val catsEffect: Deps = Seq( "org.typelevel" %% "cats-effect" % "3.4.5" )
 
-    val fs2: Deps = "co.fs2" %% Seq( "fs2-core", "fs2-io" ) % "3.4.0"
+    val fs2: Deps = "co.fs2" %% Seq( "fs2-core", "fs2-io" ) % "3.5.0"
 
-    val http4sVersion           = "0.23.16"
+    val http4sVersion           = "0.23.18"
     val http4s: Deps            = "org.http4s" %% Seq( "http4s-dsl", "http4s-core" ) % http4sVersion
     val http4sBlazeServer: Deps = Seq( "org.http4s" %% "http4s-ember-server" % http4sVersion )
     val http4sBlazeClient: Deps = Seq( "org.http4s" %% "http4s-ember-client" % http4sVersion )
 
-    val monocleVersion       = "3.1.0"
+    val monocleVersion       = "3.2.0"
     val monocle: Deps        = "dev.optics" %% Seq( "monocle-core", "monocle-macro" ) % monocleVersion
     val monocleState: Deps   = Seq( "dev.optics" %% "monocle-state" % monocleVersion )
     val monocleGeneric: Deps = Seq( "dev.optics" %% "monocle-generic" % monocleVersion )
@@ -45,7 +45,7 @@ object DependenciesPlugin extends AutoPlugin {
     val circeVersion      = "0.14.3"
     val circe: Deps       = "io.circe" %% Seq( "circe-core", "circe-generic", "circe-parser" ) % circeVersion
     val circeOptics: Deps = Seq( "io.circe" %% "circe-optics" % "0.14.1" )
-    val circeFs2: Deps    = Seq( "io.circe" %% "circe-fs2" % "0.14.0" )
+    val circeFs2: Deps    = Seq( "io.circe" %% "circe-fs2" % "0.14.1" )
     val circeJawn: Deps   = Seq( "io.circe" %% "circe-jawn" % circeVersion )
     val jawnParser: Deps  = Seq( "org.typelevel" %% "jawn-parser" % "1.4.0" )
 
@@ -75,8 +75,8 @@ object DependenciesPlugin extends AutoPlugin {
     val ojAlgo: Deps = Seq( "org.ojalgo" % "ojalgo" % "52.0.1" )
 
     val enumeratum: Deps =
-      Seq( "com.beachape" %% "enumeratum" % "1.7.0", "com.beachape" %% "enumeratum-cats" % "1.7.0" )
-    val enumeratumCirce: Deps = Seq( "com.beachape" %% "enumeratum-circe" % "1.7.0" )
+      Seq( "com.beachape" %% "enumeratum" % "1.7.2", "com.beachape" %% "enumeratum-cats" % "1.7.2" )
+    val enumeratumCirce: Deps = Seq( "com.beachape" %% "enumeratum-circe" % "1.7.2" )
 
     val shapeless: Deps = Seq( "com.chuusai" %% "shapeless" % "2.3.10" )
 
@@ -89,6 +89,14 @@ object DependenciesPlugin extends AutoPlugin {
         "ch.qos.logback" % "logback-classic" % "1.3.5",
         "org.typelevel"  %% "log4cats-slf4j" % "2.5.0"
       )
+
+    val natchezVersion = "0.3.0"
+    val natchezCore: Deps = Seq( "org.tpolecat" %% "natchez-core" % natchezVersion )
+    val natchezNoop: Deps = Seq( "org.tpolecat" %% "natchez-noop" % natchezVersion )
+    val natchezLog: Deps = Seq( "org.tpolecat" %% "natchez-log" % natchezVersion )
+    val natchezDatadog: Deps = Seq( "org.tpolecat" %% "natchez-datadog" % natchezVersion )
+    val natchezJaeger: Deps = Seq( "org.tpolecat" %% "natchez-jaeger" % natchezVersion )
+    val natchezHttp4s: Deps = Seq( "org.tpolecat" %% "natchez-http4s" % "0.5.0" )
 
     val pureconfigVersion = "0.17.2"
     val pureconfig: Deps = "com.github.pureconfig" %% Seq(
@@ -104,7 +112,7 @@ object DependenciesPlugin extends AutoPlugin {
 
     private[DependenciesPlugin] val typesafeConfig: Deps = Seq( "com.typesafe" % "config" % "1.4.2" )
 
-    val decline: Deps = "com.monovore" %% Seq( "decline", "decline-effect" ) % "2.4.0"
+    val decline: Deps = "com.monovore" %% Seq( "decline", "decline-effect" ) % "2.4.1"
 
     val doobieVersion             = "0.13.4"
     val doobie: Deps              = "org.tpolecat" %% Seq( "doobie-core", "doobie-free" ) % doobieVersion
@@ -113,13 +121,13 @@ object DependenciesPlugin extends AutoPlugin {
     val doobieH2: Deps            = Seq( "org.tpolecat" %% "doobie-h2" % doobieVersion )
     val doobieScalatest: Deps     = Seq( "org.tpolecat" %% "doobie-scalatest" % doobieVersion )
 
-    val postgresql: Deps = Seq( "org.postgresql" % "postgresql"  % "42.5.1" )
+    val postgresql: Deps = Seq( "org.postgresql" % "postgresql"  % "42.5.2" )
     val h2database: Deps = Seq( "com.h2database" % "h2"          % "2.1.214" )
-    val flywayCore: Deps = Seq( "org.flywaydb"   % "flyway-core" % "9.8.3" )
+    val flywayCore: Deps = Seq( "org.flywaydb"   % "flyway-core" % "9.14.1" )
 
     val scalatest: Deps = Seq(
-      "org.scalatest"     %% "scalatest"       % "3.2.14",
-      "org.scalatestplus" %% "scalacheck-1-17" % "3.2.14.0"
+      "org.scalatest"     %% "scalatest"       % "3.2.15",
+      "org.scalatestplus" %% "scalacheck-1-17" % "3.2.15.0"
     )
 
     val scalacheck: Deps =
@@ -158,6 +166,7 @@ object DependenciesPlugin extends AutoPlugin {
       monocle ++
       monocleState ++
       monocleGeneric ++
+      monocleUnsafe ++
       circe ++
       circeFs2 ++
       circeJawn ++
@@ -179,6 +188,12 @@ object DependenciesPlugin extends AutoPlugin {
       jawnParser ++
       scalaXml ++
       logging ++
+      natchezCore ++
+      natchezNoop ++
+      natchezLog ++
+      natchezDatadog ++
+      natchezJaeger ++
+      natchezHttp4s ++
       pureconfig ++
       pureconfigEnumeratum ++
       pureconfigFs2 ++
