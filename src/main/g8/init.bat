@@ -1,6 +1,6 @@
 @echo off
-git init
-git remote add origin https://github.com/chwthewke/$repository$
+git init -b main
+git remote add origin https://github.com/$repository$
 git add .
 git reset -- "%~f0"
 git commit -m "chore: create project from template"
