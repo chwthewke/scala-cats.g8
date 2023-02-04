@@ -1,8 +1,8 @@
-A [Giter8][g8] template for Scala 2.12 projects with Cats!
+A [Giter8][g8] template for Scala 2.13 projects with Cats!
 
 Template license
 ----------------
-Written in 2016 by Thomas Dufour <td@thomasdufour.fr>
+Written in 2016-2023 by Thomas Dufour <td@thomasdufour.fr>
 
 To the extent possible under law, the author(s) have dedicated all copyright and related
 and neighboring rights to this template to the public domain worldwide.
