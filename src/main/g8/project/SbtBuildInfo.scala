@@ -3,7 +3,7 @@ import sbt.Keys._
 import sbtbuildinfo._
 import sbtbuildinfo.BuildInfoKeys._
 
-object SbtBuildInfo extends AutoPlugin {
+object SbtBuildInfoPlugin extends AutoPlugin {
   override def requires: Plugins = super.requires && BuildInfoPlugin
 
   val shortVersion = SettingKey[String]( "short-version" ).withRank( KeyRanks.Invisible )
@@ -13,7 +13,7 @@ object SbtBuildInfo extends AutoPlugin {
       buildInfoPackage := "buildinfo",
       buildInfoObject := "$name;format="Camel"$",
       shortVersion := shortenVersion( version.value ),
-      buildInfoKeys := BuildInfoKey.ofN( name, version, shortVersion, scalaVersion )
+      buildInfoKeys ++= Seq[BuildInfoKey]( name, version, shortVersion, scalaVersion )
     )
 
   val MajorMinor = raw"(\d+)\.(\d+).*".r

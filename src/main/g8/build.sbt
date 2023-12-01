@@ -12,18 +12,27 @@ ThisBuild / updateSbtClassifiers / conflictManager := ConflictManager.default
 
 enablePlugins( FormatPlugin, DependenciesPlugin )
 
-val core = project
+val `$name;format="norm"$-core` = project
+  .in( file( "core" ) )
   .settings( libraryDependencies ++= cats ++ catsEffect )
-  .enablePlugins( SbtBuildInfo, ScalacPlugin )
+  .enablePlugins( SbtBuildInfoPlugin, ScalacPlugin )
 
-val tests = project
-  .settings( libraryDependencies ++= (scalatest ++ scalacheck).map( _ % "test" ) )
-  .dependsOn( core )
+val `$name;format="norm"$-app` = project
+  .in( file( "app" ) )
+  .settings( Compile / run / fork := true )
+  .dependsOn( `$name;format="norm"$-core` )
+  .enablePlugins( SbtBuildInfoPlugin, ScalacPlugin )
+
+val `$name;format="norm"$-tests` = project
+  .in( file( "tests" ) )
+  .settings( libraryDependencies ++= scalatest ++ scalacheck )
+  .dependsOn( `$name;format="norm"$-core`, `$name;format="norm"$-app` )
   .enablePlugins( ScalacPlugin )
 
 val `$name;format="norm"$` = project
   .in( file( "." ) )
   .aggregate(
-    core,
-    tests
+    `$name;format="norm"$-core`,
+    `$name;format="norm"$-app`,
+    `$name;format="norm"$-tests`
   )
