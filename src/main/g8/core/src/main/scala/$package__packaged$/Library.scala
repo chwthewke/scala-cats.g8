@@ -1,7 +1,4 @@
 package $package$
 
-object Library {
-
+object Library:
   def function: Int = 42
-
-}
