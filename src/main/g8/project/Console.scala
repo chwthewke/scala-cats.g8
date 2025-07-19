@@ -11,10 +11,10 @@ object Console {
       )
 
     def compileS = compileList.map( "import " + _ ).mkString( "\n" )
-    def testS    = (compileList ++ testList).map( "import " + _ ).mkString( "\n" )
+    def testS    = ( compileList ++ testList ).map( "import " + _ ).mkString( "\n" )
 
     def settings = Seq(
-      initialCommands := compileS,
+      initialCommands        := compileS,
       Test / initialCommands := testS
     )
   }

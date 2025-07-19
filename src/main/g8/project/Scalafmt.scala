@@ -3,7 +3,7 @@ import sbt.Keys._
 import org.scalafmt.sbt.ScalafmtPlugin
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport._
 
-object FormatPlugin extends AutoPlugin {
+object Scalafmt extends AutoPlugin {
 
   override def requires: Plugins = ScalafmtPlugin
 
@@ -18,18 +18,23 @@ object FormatPlugin extends AutoPlugin {
     scalafmtGenerateConfig := {
       IO.write(
         file( ".scalafmt.conf" ),
-        """version = "2.0.0"
+        """version = "3.9.7"
+          |runner.dialect = scala3
           |
-          |style = defaultWithAlign
+          |preset = defaultWithAlign
           |maxColumn = 120
           |lineEndings = preserve
           |
           |assumeStandardLibraryStripMargin = true
           |align.arrowEnumeratorGenerator = true
+          |docstrings.style = Asterisk
           |spaces.inParentheses = true
           |
-          |rewrite.rules = [ExpandImportSelectors]
-          |""".stripMargin
+          |newlines.beforeCurlyLambdaParams = multilineWithCaseOnly
+          |newlines.avoidForSimpleOverflow = [slc]
+          |
+          |rewrite.rules = [Imports]
+          |rewrite.imports.expand = true""".stripMargin
       )
     },
     scalafmtConfig := {

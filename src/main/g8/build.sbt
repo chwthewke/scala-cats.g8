@@ -1,36 +1,49 @@
 import sbt._
 import sbt.Keys._
 
-// format: off
-ThisBuild / organization      := "$organization$"
-ThisBuild / scalaOrganization := "org.scala-lang"
-ThisBuild / scalaVersion      := "$scalaVersion$"
-// TODO when I can make sense of lm-coursier
-ThisBuild / conflictManager                        := ConflictManager.strict
-ThisBuild / updateSbtClassifiers / conflictManager := ConflictManager.default
-// format: on
+ThisBuild / organization := "$organization$"
 
-enablePlugins( FormatPlugin, DependenciesPlugin )
+ThisBuild / ideBasePackages.withRank( KeyRanks.Invisible ) := Seq( "$package$" )
+
+ThisBuild / Compile / doc / sources                := Seq.empty
+ThisBuild / Compile / packageDoc / publishArtifact := false
+
+enablePlugins( Scalafmt )
+enablePlugins( Dependencies )
+
+val sharedSettings = Seq(
+  scalaVersion                                          := "$scalaVersion$",
+  ideExcludedDirectories.withRank( KeyRanks.Invisible ) := Seq( target.value )
+)
+
+val aggregateSettings = Seq(
+  publish      := {},
+  publishLocal := {}
+)
 
 val `$name;format="norm"$-core` = project
   .in( file( "core" ) )
-  .settings( libraryDependencies ++= cats ++ catsEffect )
-  .enablePlugins( SbtBuildInfoPlugin, ScalacPlugin )
+  .settings( sharedSettings )
+  .settings( cats, catsEffect )
+  .enablePlugins( Scalac )
 
 val `$name;format="norm"$-app` = project
   .in( file( "app" ) )
+  .settings( sharedSettings )
   .settings( Compile / run / fork := true )
   .dependsOn( `$name;format="norm"$-core` )
-  .enablePlugins( SbtBuildInfoPlugin, ScalacPlugin )
+  .enablePlugins( Scalac, BuildInfo )
 
 val `$name;format="norm"$-tests` = project
   .in( file( "tests" ) )
-  .settings( libraryDependencies ++= scalatest ++ scalacheck )
+  .settings( sharedSettings )
+  .settings( scalatest, scalacheck )
   .dependsOn( `$name;format="norm"$-core`, `$name;format="norm"$-app` )
-  .enablePlugins( ScalacPlugin )
+  .enablePlugins( Scalac )
 
 val `$name;format="norm"$` = project
   .in( file( "." ) )
+  .settings( sharedSettings, aggregateSettings )
   .aggregate(
     `$name;format="norm"$-core`,
     `$name;format="norm"$-app`,
