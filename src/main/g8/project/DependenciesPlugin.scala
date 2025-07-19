@@ -16,48 +16,48 @@ object DependenciesPlugin extends AutoPlugin {
     implicit def ToGroupOps( deps: Deps ): GroupOps = new GroupOps( deps )
 
     val kindProjector: Deps =
-      Seq( compilerPlugin( "org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full ) )
+      Seq( compilerPlugin( "org.typelevel" %% "kind-projector" % "0.13.3" cross CrossVersion.full ) )
 
     val betterMonadicFor: Deps = Seq( compilerPlugin( "com.olegpy" %% "better-monadic-for" % "0.3.1" ) )
 
-    val catsVersion         = "2.10.0"
+    val catsVersion         = "2.13.0"
     val cats: Deps          = "org.typelevel" %% Seq( "cats-core", "cats-kernel" ) % catsVersion
     val catsFree: Deps      = Seq( "org.typelevel" %% "cats-free" % catsVersion )
-    val catsMtl: Deps       = Seq( "org.typelevel" %% "cats-mtl" % "1.4.0" )
-    val mouse: Deps         = Seq( "org.typelevel" %% "mouse" % "1.2.2" )
-    val kittens: Deps       = Seq( "org.typelevel" %% "kittens" % "3.1.0" )
+    val catsMtl: Deps       = Seq( "org.typelevel" %% "cats-mtl" % "1.5.0" )
+    val mouse: Deps         = Seq( "org.typelevel" %% "mouse" % "1.3.2" )
+    val kittens: Deps       = Seq( "org.typelevel" %% "kittens" % "3.5.0" )
     val alleycatsCore: Deps = Seq( "org.typelevel" %% "alleycats-core" % catsVersion )
 
-    val catsEffect: Deps = "org.typelevel" %% Seq( "cats-effect", "cats-effect-kernel", "cats-effect-std" ) % "3.5.2"
+    val catsEffect: Deps = "org.typelevel" %% Seq( "cats-effect", "cats-effect-kernel", "cats-effect-std" ) % "3.6.2"
 
-    val fs2: Deps = "co.fs2" %% Seq( "fs2-core", "fs2-io" ) % "3.9.3"
+    val fs2: Deps = "co.fs2" %% Seq( "fs2-core", "fs2-io" ) % "3.12.0"
 
-    val http4sVersion           = "0.23.24"
+    val http4sVersion           = "0.23.30"
     val http4s: Deps            = "org.http4s" %% Seq( "http4s-dsl", "http4s-core", "http4s-circe" ) % http4sVersion
     val http4sClientCore: Deps  = Seq( "org.http4s" %% "http4s-client" % http4sVersion )
     val http4sServerCore: Deps  = Seq( "org.http4s" %% "http4s-server" % http4sVersion )
     val http4sEmberServer: Deps = Seq( "org.http4s" %% "http4s-ember-server" % http4sVersion )
     val http4sEmberClient: Deps = Seq( "org.http4s" %% "http4s-ember-client" % http4sVersion )
 
-    val monocleVersion       = "3.2.0"
+    val monocleVersion       = "3.3.0"
     val monocle: Deps        = "dev.optics" %% Seq( "monocle-core", "monocle-macro" ) % monocleVersion
     val monocleState: Deps   = Seq( "dev.optics" %% "monocle-state" % monocleVersion )
     val monocleGeneric: Deps = Seq( "dev.optics" %% "monocle-generic" % monocleVersion )
     val monocleUnsafe: Deps  = Seq( "dev.optics" %% "monocle-unsafe" % monocleVersion )
 
-    val circeVersion      = "0.14.6"
+    val circeVersion      = "0.14.14"
     val circe: Deps       = "io.circe" %% Seq( "circe-core", "circe-generic", "circe-parser" ) % circeVersion
-    val circeOptics: Deps = Seq( "io.circe" %% "circe-optics" % "0.14.1" )
+    val circeOptics: Deps = Seq( "io.circe" %% "circe-optics" % "0.15.1" )
     val circeFs2: Deps    = Seq( "io.circe" %% "circe-fs2" % "0.14.1" )
     val circeJawn: Deps   = Seq( "io.circe" %% "circe-jawn" % circeVersion )
-    val jawnParser: Deps  = Seq( "org.typelevel" %% "jawn-parser" % "1.4.0" )
+    val jawnParser: Deps  = Seq( "org.typelevel" %% "jawn-parser" % "1.6.0" )
 
     val scodec: Deps = Seq(
-      "org.scodec" %% "scodec-bits" % "1.1.38",
-      "org.scodec" %% "scodec-core" % "1.11.10"
+      "org.scodec" %% "scodec-bits" % "1.2.4",
+      "org.scodec" %% "scodec-core" % "1.11.11"
     )
 
-    val catsParse: Deps = Seq( "org.typelevel" %% "cats-parse" % "1.0.0" )
+    val catsParse: Deps = Seq( "org.typelevel" %% "cats-parse" % "1.1.0" )
 
     val atto: Deps = Seq( "org.tpolecat" %% "atto-core" % "0.9.5" )
 
@@ -66,7 +66,7 @@ object DependenciesPlugin extends AutoPlugin {
 
     val spire: Deps    = Seq( "org.typelevel" %% "spire"         % "0.18.0" )
     val algebird: Deps = Seq( "com.twitter"   %% "algebird-core" % "0.13.10" )
-    val algebra: Deps  = Seq( "org.typelevel" %% "algebra"       % "2.10.0" )
+    val algebra: Deps  = Seq( "org.typelevel" %% "algebra"       % "2.13.0" )
 
     val breeze: Deps = "org.scalanlp" %% Seq( "breeze", "breeze-natives" ) % "2.1.0"
     val breezeDependencyOverrides: Deps =
@@ -75,47 +75,48 @@ object DependenciesPlugin extends AutoPlugin {
         "com.github.fommil.netlib" % "core"          % "1.1.2"
       )
 
-    val ojAlgo: Deps = Seq( "org.ojalgo" % "ojalgo" % "53.1.1" )
+    val ojAlgo: Deps = Seq( "org.ojalgo" % "ojalgo" % "55.2.0" )
 
     val enumeratum: Deps =
-      Seq( "com.beachape" %% "enumeratum" % "1.7.2", "com.beachape" %% "enumeratum-cats" % "1.7.3" )
-    val enumeratumCirce: Deps = Seq( "com.beachape" %% "enumeratum-circe" % "1.7.3" )
+      Seq( "com.beachape" %% "enumeratum" % "1.9.0", "com.beachape" %% "enumeratum-cats" % "1.9.0" )
+    val enumeratumCirce: Deps = Seq( "com.beachape" %% "enumeratum-circe" % "1.9.0" )
 
-    val shapeless: Deps = Seq( "com.chuusai" %% "shapeless" % "2.3.10" )
+    val shapeless: Deps = Seq( "com.chuusai" %% "shapeless" % "2.3.13" )
 
     val java8compat: Deps = Seq( "org.scala-lang.modules" %% "scala-java8-compat" % "1.0.2" )
-    val scalaXml: Deps    = Seq( "org.scala-lang.modules" %% "scala-xml"          % "2.2.0" )
+    val scalaXml: Deps    = Seq( "org.scala-lang.modules" %% "scala-xml"          % "2.4.0" )
 
-    val scalaCollectionsCompat: Deps = Seq( "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0" )
+    val scalaCollectionsCompat: Deps = Seq( "org.scala-lang.modules" %% "scala-collection-compat" % "2.13.0" )
 
     val log4cats: Deps =
       Seq(
-        "org.slf4j"     % "slf4j-api"       % "1.7.36",
-        "org.typelevel" %% "log4cats-slf4j" % "2.6.0"
+        "org.slf4j"     % "slf4j-api"       % "2.0.17",
+        "org.typelevel" %% "log4cats-slf4j" % "2.7.1",
+        "org.typelevel" %% "log4cats-core" % "2.7.1"
       )
 
-    val logback: Deps = Seq( "ch.qos.logback" % "logback-classic" % "1.3.14" )
+    val logback: Deps = Seq( "ch.qos.logback" % "logback-classic" % "1.5.18" )
 
-    val natchezVersion       = "0.3.4"
+    val natchezVersion       = "0.3.8"
     val natchezCore: Deps    = Seq( "org.tpolecat" %% "natchez-core" % natchezVersion )
     val natchezNoop: Deps    = Seq( "org.tpolecat" %% "natchez-noop" % natchezVersion )
     val natchezLog: Deps     = Seq( "org.tpolecat" %% "natchez-log" % natchezVersion )
     val natchezDatadog: Deps = Seq( "org.tpolecat" %% "natchez-datadog" % natchezVersion )
     val natchezJaeger: Deps  = Seq( "org.tpolecat" %% "natchez-jaeger" % natchezVersion )
-    val natchezHttp4s: Deps  = Seq( "org.tpolecat" %% "natchez-http4s" % "0.5.0" )
+    val natchezHttp4s: Deps  = Seq( "org.tpolecat" %% "natchez-http4s" % "0.6.1" )
 
     val natchezOverrides: Deps = Seq(
-      "com.squareup.okhttp3"   % "okhttp"                     % "4.9.0",
-      "com.squareup.okio"      % "okio"                       % "2.8.0",
-      "org.jetbrains.kotlin"   % "kotlin-stdlib-common"       % "1.4.10",
-      "org.jetbrains.kotlin"   % "kotlin-stdlib"              % "1.4.10",
+      "com.squareup.okhttp3"   % "okhttp"                     % "4.12.0",
+      "com.squareup.okio"      % "okio"                       % "2.10.0",
+      "org.jetbrains.kotlin"   % "kotlin-stdlib-common"       % "1.4.32",
+      "org.jetbrains.kotlin"   % "kotlin-stdlib"              % "1.4.32",
       "io.opentracing"         % "opentracing-api"            % "0.33.0",
       "io.opentracing"         % "opentracing-noop"           % "0.33.0",
       "io.opentracing.contrib" % "opentracing-tracerresolver" % "0.1.8",
       "io.opentracing"         % "opentracing-util"           % "0.33.0"
     )
 
-    val pureconfigVersion = "0.17.4"
+    val pureconfigVersion = "0.17.9"
     val pureconfig: Deps = "com.github.pureconfig" %% Seq(
       "pureconfig-core",
       "pureconfig-cats",
@@ -127,9 +128,9 @@ object DependenciesPlugin extends AutoPlugin {
     val pureconfigFs2: Deps        = Seq( "com.github.pureconfig" %% "pureconfig-fs2"         % pureconfigVersion )
     val pureconfigHttp4s: Deps     = Seq( "com.github.pureconfig" %% "pureconfig-http4s"      % pureconfigVersion )
 
-    private[DependenciesPlugin] val typesafeConfig: Deps = Seq( "com.typesafe" % "config" % "1.4.3" )
+    private[DependenciesPlugin] val typesafeConfig: Deps = Seq( "com.typesafe" % "config" % "1.4.4" )
 
-    val decline: Deps = "com.monovore" %% Seq( "decline", "decline-effect" ) % "2.4.1"
+    val decline: Deps = "com.monovore" %% Seq( "decline", "decline-effect" ) % "2.5.0"
 
     val doobieVersion             = "0.13.4"
     val doobie: Deps              = "org.tpolecat" %% Seq( "doobie-core", "doobie-free" ) % doobieVersion
@@ -138,21 +139,21 @@ object DependenciesPlugin extends AutoPlugin {
     val doobieH2: Deps            = Seq( "org.tpolecat" %% "doobie-h2" % doobieVersion )
     val doobieScalatest: Deps     = Seq( "org.tpolecat" %% "doobie-scalatest" % doobieVersion )
 
-    val postgresql: Deps = Seq( "org.postgresql" % "postgresql"  % "42.7.0" )
-    val flywayCore: Deps = Seq( "org.flywaydb"   % "flyway-core" % "10.1.0" )
+    val postgresql: Deps = Seq( "org.postgresql" % "postgresql"  % "42.7.7" )
+    val flywayCore: Deps = Seq( "org.flywaydb"   % "flyway-core" % "11.10.3" )
 
     val scalatest: Deps = Seq(
-      "org.scalatest"     %% "scalatest"       % "3.2.17",
-      "org.scalatestplus" %% "scalacheck-1-17" % "3.2.17.0"
+      "org.scalatest"     %% "scalatest"       % "3.2.19",
+      "org.scalatestplus" %% "scalacheck-1-18" % "3.2.19.0"
     )
 
     val scalacheck: Deps =
       Seq(
-        "org.scalacheck"    %% "scalacheck"      % "1.17.0",
+        "org.scalacheck"    %% "scalacheck"      % "1.18.1",
         "io.chrisdavenport" %% "cats-scalacheck" % "0.3.2"
       )
 
-    val uTest: Deps = Seq( "com.lihaoyi" %% "utest" % "0.8.2" )
+    val uTest: Deps = Seq( "com.lihaoyi" %% "utest" % "0.8.9" )
 
     val uTestRunner: Def.Setting[_] =
       testFrameworks += new TestFramework( "utest.runner.Framework" )
