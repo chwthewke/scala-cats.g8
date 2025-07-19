@@ -1,0 +1,2 @@
+>set libraryDependencies ++= DependenciesPlugin.allModules
+>dependencyUpdates
