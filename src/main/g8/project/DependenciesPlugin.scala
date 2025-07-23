@@ -92,7 +92,7 @@ object DependenciesPlugin extends AutoPlugin {
       Seq(
         "org.slf4j"     % "slf4j-api"       % "2.0.17",
         "org.typelevel" %% "log4cats-slf4j" % "2.7.1",
-        "org.typelevel" %% "log4cats-core" % "2.7.1"
+        "org.typelevel" %% "log4cats-core"  % "2.7.1"
       )
 
     val logback: Deps = Seq( "ch.qos.logback" % "logback-classic" % "1.5.18" )
